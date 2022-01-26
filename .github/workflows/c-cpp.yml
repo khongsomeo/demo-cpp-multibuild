@@ -15,10 +15,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: make-c
-      run: main_c
-    - name: make-cpp
-      run: main_cpp
+    - name: make
+      run: make
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
