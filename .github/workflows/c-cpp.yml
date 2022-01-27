@@ -15,12 +15,37 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: make
       run: make
-    - name: Archive production artifacts
+
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: build-data
+        name: build-executable
         path: |
           main_cpp
           main_cpp.exe
+      if: ${{ github.event_name == 'push' }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build-c
+    steps:
+    - name: Download artifacts from previous build
+      uses: actions/download-artifact@v2
+      with:
+        name: build-executable
+      if: ${{ github.event_name == 'push' }}
+
+    - name: Automatic Releases
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }} 
+        automatic_release_tag: 'latest'
+        prerelease: true
+        title: 'Development Build'
+        files: |
+          main_cpp
+          main_cpp.exe
+      if: ${{ github.event_name == 'push' }}
