@@ -18,28 +18,14 @@ jobs:
     
     - name: make
       run: make
-    
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
+   
+    - name: Automatic Releases
+      uses: marvinpinto/action-automatic-releases@latest
       with:
-        name: build-data
-        path: |
+        repo_token: ${{ secrets.GITHUB_TOKEN }} 
+        automatic_release_tag: 'latest'
+        prerelease: true
+        title: 'Development Build'
+        files: |
           main_cpp
           main_cpp.exe
-      if: ${{ github.event_name == 'push' }}
-    
-    - name: Release drafter
-      uses: release-drafter/release-drafter@v5
-      with:
-        config-name: release-drafter.yml
-        disable-autolabeler: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: ${{ github.event_name == 'push' }}
-
-
-    - name: Upload release artifact
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build-data.zip
-      if: ${{ github.event_name == 'push' }}
