@@ -20,6 +20,7 @@ jobs:
       run: make
 
     - name: Upload artifacts
+      uses: actions/upload-artifact@v2
       with:
         name: build-executable
         path: |
@@ -27,7 +28,7 @@ jobs:
           main_cpp.exe
    
     - name: Automatic Releases
-      uses: 'marvinpinto/action-automatic-releases@latest'
+      uses: marvinpinto/action-automatic-releases@latest
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }} 
         automatic_release_tag: 'latest'
