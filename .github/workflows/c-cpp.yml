@@ -26,14 +26,17 @@ jobs:
         path: |
           main_cpp
           main_cpp.exe
-  
+      if: ${{ github.event_name == 'push' }}
+
   release:
     runs-on: ubuntu-latest
+    needs: build-c
     steps:
     - name: Download artifacts from previous build
       uses: actions/download-artifact@v2
       with:
         name: build-executable
+      if: ${{ github.event_name == 'push' }}
 
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@latest
