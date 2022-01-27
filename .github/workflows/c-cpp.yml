@@ -25,6 +25,13 @@ jobs:
           main_cpp
           main_cpp.exe
       if: ${{ github.event_name == 'push' }}
+    - name: Release drafter
+      uses: release-drafter/release-drafter@v5
+      steps:
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: ${{ github.event_name == 'push' }}
+
     - name: Upload release artifact
       uses: softprops/action-gh-release@v1
       with:
