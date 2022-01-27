@@ -18,6 +18,13 @@ jobs:
     
     - name: make
       run: make
+
+    - name: Upload artifacts
+      with:
+        name: build-executable
+        path: |
+          main_cpp
+          main_cpp.exe
    
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@latest
@@ -27,5 +34,5 @@ jobs:
         prerelease: true
         title: 'Development Build'
         files: |
-          main_cpp
-          main_cpp.exe
+          build-executable.zip
+      if: ${{ github.event_name == 'push' }}
