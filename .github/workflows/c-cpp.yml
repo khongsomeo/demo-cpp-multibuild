@@ -24,3 +24,9 @@ jobs:
         path: |
           main_cpp
           main_cpp.exe
+      if: ${{ github.event_name == 'push' }}
+    - name: Upload release artifact
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build-data.zip
+      if: ${{ github.event_name == 'push' }}
