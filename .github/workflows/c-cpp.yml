@@ -29,10 +29,9 @@ jobs:
       if: ${{ github.event_name == 'push' }}
     
     - name: Release drafter
-      steps:
-        uses: release-drafter/release-drafter@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: release-drafter/release-drafter@v5
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ github.event_name == 'push' }}
 
 
