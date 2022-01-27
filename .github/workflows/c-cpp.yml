@@ -45,6 +45,5 @@ jobs:
         automatic_release_tag: 'latest'
         prerelease: true
         title: 'Development Build'
-        files: |
-          build-executable.zip
+        files: build-executable
       if: ${{ github.event_name == 'push' }}
