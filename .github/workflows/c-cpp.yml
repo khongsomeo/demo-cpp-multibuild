@@ -26,7 +26,15 @@ jobs:
         path: |
           main_cpp
           main_cpp.exe
-   
+  
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts from previous build
+      uses: actions/download-artifact@v2
+      with:
+        name: build-executable
+
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@latest
       with:
