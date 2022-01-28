@@ -7,8 +7,29 @@ on:
     branches: [ master ]
 
 jobs:
+  c-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: DoozyX/clang-format-lint-action@v0.13
+        with:
+          source: 'src/'
+          extensions: 'h, cpp, c'
+          clangFormatVersion: 13.0.0
+          inplace: True
+
+      - uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Clang Robot
+          author_email: robot@example.com
+          message: 'Committing clang-format changes'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-c:
     runs-on: ${{ matrix.os }}
+    needs: c-linter
     strategy:
       matrix:
         os: ['windows-latest', 'ubuntu-latest']
@@ -23,12 +44,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build-executable
-        path: |
-          main_cpp
-          main_cpp.exe
+        path: main
       if: ${{ github.event_name == 'push' }}
 
   release:
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     needs: build-c
     steps:
@@ -36,7 +56,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: build-executable
-      if: ${{ github.event_name == 'push' }}
 
     - name: Automatic Releases
       uses: marvinpinto/action-automatic-releases@latest
@@ -45,7 +64,4 @@ jobs:
         automatic_release_tag: 'latest'
         prerelease: true
         title: 'Development Build'
-        files: |
-          main_cpp
-          main_cpp.exe
-      if: ${{ github.event_name == 'push' }}
+        files: main
