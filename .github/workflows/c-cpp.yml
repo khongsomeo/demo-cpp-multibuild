@@ -23,9 +23,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build-executable
-        path: |
-          main_cpp
-          main_cpp.exe
+        path: main
       if: ${{ github.event_name == 'push' }}
 
   release:
@@ -45,7 +43,5 @@ jobs:
         automatic_release_tag: 'latest'
         prerelease: true
         title: 'Development Build'
-        files: |
-          main_cpp
-          main_cpp.exe
+        files: main
       if: ${{ github.event_name == 'push' }}
