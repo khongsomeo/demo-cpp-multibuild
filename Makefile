@@ -1,10 +1,13 @@
 CXX=g++
 
-main_cpp: main_cpp.o
-	$(CXX) main_cpp.o -o main_cpp
+main: meow.o main.o
+	$(CXX) meow.o main.o -o main
 
-main_cpp.o: main.cpp
-	$(CXX) -Wall -c -o main_cpp.o main.cpp
+main.o: src/main.cpp
+	$(CXX) -Wall -c -o main.o src/main.cpp
+
+meow.o: src/meow.cpp
+	$(CXX) -Wall -c -o meow.o src/meow.cpp
 
 clean:
-	rm -rf *.o main_c main_cpp
+	rm -rf *.o main
