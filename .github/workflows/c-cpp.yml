@@ -29,6 +29,7 @@ jobs:
 
   build-c:
     runs-on: ${{ matrix.os }}
+    needs: c-linter
     strategy:
       matrix:
         os: ['windows-latest', 'ubuntu-latest']
