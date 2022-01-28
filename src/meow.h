@@ -1,23 +1,23 @@
 #ifndef MEOW_H
 #define MEOW_H
 
-#include<iostream>
-#include<sstream>
-#include<string>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 class Meow {
-private:
+ private:
   std::string _name;
   std::string _fur;
 
-public:
+ public:
   Meow();
 
   Meow(const std::string&, const std::string&);
 
   ~Meow();
 
-public:
+ public:
   std::string name() const;
 
   std::string fur() const;
@@ -25,4 +25,4 @@ public:
   std::string sayHello() const;
 };
 
-#endif  //MEOW_H
+#endif  // MEOW_H
