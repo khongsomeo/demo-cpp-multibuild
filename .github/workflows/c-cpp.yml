@@ -11,21 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: DoozyX/clang-format-lint-action@v0.13
-        with:
-          source: 'src/'
-          extensions: 'h, cpp, c'
-          clangFormatVersion: 13.0.0
-          inplace: True
+  
+      - name: Install clang-format
+        runs: sudo apt-get install -y clang-format
 
-      - uses: EndBug/add-and-commit@v4
-        with:
-          author_name: Clang Robot
-          author_email: robot@example.com
-          message: 'Committing clang-format changes'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Linting
+        runs: make lint
 
   build-c:
     runs-on: ${{ matrix.os }}
