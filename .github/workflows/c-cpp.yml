@@ -10,13 +10,15 @@ jobs:
   c-linter:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Repository checkout
+        uses: actions/checkout@v2
+        
   
       - name: Install clang-format
-        runs: sudo apt-get install -y clang-format
+        run: sudo apt-get install -y clang-format
 
       - name: Linting
-        runs: make lint
+        run: make lint
 
   build-c:
     runs-on: ${{ matrix.os }}
