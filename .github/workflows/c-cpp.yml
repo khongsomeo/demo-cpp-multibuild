@@ -10,58 +10,24 @@ jobs:
   c-linter:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - uses: DoozyX/clang-format-lint-action@v0.13
-        with:
-          source: 'src/'
-          extensions: 'h, cpp, c'
-          clangFormatVersion: 13.0.0
-          inplace: True
+      - name: Repository checkout
+        uses: actions/checkout@v2
+        
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
 
-      - uses: EndBug/add-and-commit@v4
-        with:
-          author_name: Clang Robot
-          author_email: robot@example.com
-          message: 'Committing clang-format changes'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Linting
+        run: make lint
 
   build-c:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     needs: c-linter
-    strategy:
-      matrix:
-        os: ['windows-latest', 'ubuntu-latest']
-
     steps:
     - uses: actions/checkout@v2
     
     - name: make
       run: make
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-executable
-        path: main
-      if: ${{ github.event_name == 'push' }}
+    - name: make clean
+      run: make clean
 
-  release:
-    if: ${{ github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    needs: build-c
-    steps:
-    - name: Download artifacts from previous build
-      uses: actions/download-artifact@v2
-      with:
-        name: build-executable
-
-    - name: Automatic Releases
-      uses: marvinpinto/action-automatic-releases@latest
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }} 
-        automatic_release_tag: 'latest'
-        prerelease: true
-        title: 'Development Build'
-        files: main
