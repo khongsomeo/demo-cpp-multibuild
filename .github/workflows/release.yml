@@ -23,7 +23,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-executable
-          path: main main.exe
+          path: |
+            main
+            main.exe
 
       - name: Clean
         run: make clean
